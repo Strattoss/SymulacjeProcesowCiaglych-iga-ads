@@ -3,10 +3,10 @@
 
 # default values if not provided from command line
 if (!exists("start"))   start = 0
-if (!exists("end"))     end = 9900
+if (!exists("end"))     end = 9990
 if (!exists("step"))    step = 10
 
-set terminal gif animate delay 20 optimize size 800,600
+set terminal gif animate delay 10 optimize size 800,600
 set output 'anim.gif'
 
 unset key

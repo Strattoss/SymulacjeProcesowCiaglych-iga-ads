@@ -23,7 +23,7 @@ enhanced = np.power(enhanced, 2.2)
 
 enhanced = (enhanced - enhanced.min()) / (enhanced.max() - enhanced.min() + 1e-8)
 enhanced = np.clip((enhanced - 0.2) * 2.5, 0, 1)
-gamma = 1.5  
+gamma = 1
 enhanced = np.power(enhanced, gamma)
 
 gray = (enhanced * 255).astype(np.uint8)
