@@ -89,7 +89,7 @@ public:
     double init_state(double x, double y) {
         double r = 3;
         double R = 5;
-        return T0 + Tcomb * bump(r, R, x, y, 65, 50);
+        return T0 + Tcomb * bump(r, R, x, y, 30, 28);
     };
 
     double init_fuel(double x, double y) {
