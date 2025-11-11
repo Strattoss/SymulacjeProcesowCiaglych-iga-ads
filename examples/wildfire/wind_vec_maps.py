@@ -10,7 +10,7 @@ timesteps = range(0, 9990, 10)
 os.makedirs("wind_maps", exist_ok=True)
 
 def wind_field(X, Y, t):
-    speed = 40.0
+    speed = 10.0
 
     # Angle smoothly transitions from 0 (west) to π/2 (south)
     angle = (np.pi / 2.0) * (1.0 - np.exp(-t / 1500.0))

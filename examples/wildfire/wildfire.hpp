@@ -127,7 +127,7 @@ private:
     }
 
     std::array<double, 2> compute_wind(double x, double y, double t) {
-        double speed = 40.0;
+        double speed = 10.0;
 
         double angle = (M_PI / 2.0) * (1.0 - std::exp(-t / 1500.0));
 

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def compute_wind(y, t):
-    speed = 40.0
+    speed = 10.0
     angle = (np.pi / 2.0) * (1.0 - np.exp(-t / 1500.0))
     bx = -speed * np.cos(angle)
     by = -speed * np.sin(angle)
@@ -20,8 +20,8 @@ U, V = np.array(U), np.array(V)
 
 # --- przygotowanie wykresu ---
 fig, ax = plt.subplots(figsize=(6, 6))
-ax.set_xlim(-41, 1)
-ax.set_ylim(-41, 1)
+ax.set_xlim(-11, 1)
+ax.set_ylim(-11, 1)
 ax.set_xlabel("Składowa pozioma (Zachód–Wschód)")
 ax.set_ylabel("Składowa pionowa (Południe–Północ)")
 ax.set_title("Ewolucja kierunku wiatru w czasie")
