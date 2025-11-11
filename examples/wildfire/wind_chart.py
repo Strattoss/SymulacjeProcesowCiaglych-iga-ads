@@ -2,14 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def compute_wind(y, t):
-    speed = 10.0
+    speed = 40.0
     angle = (np.pi / 2.0) * (1.0 - np.exp(-t / 1500.0))
     bx = -speed * np.cos(angle)
     by = -speed * np.sin(angle)
     return bx, by
 
 # --- dane ---
-times = np.linspace(0, 6000, 100)
+times = np.linspace(0, 3000, 100)
 y = 50.0
 U, V = [], []
 for t in times:
@@ -20,8 +20,8 @@ U, V = np.array(U), np.array(V)
 
 # --- przygotowanie wykresu ---
 fig, ax = plt.subplots(figsize=(6, 6))
-ax.set_xlim(-11, 1)
-ax.set_ylim(-11, 1)
+ax.set_xlim(-41, 1)
+ax.set_ylim(-41, 1)
 ax.set_xlabel("Składowa pozioma (Zachód–Wschód)")
 ax.set_ylabel("Składowa pionowa (Południe–Północ)")
 ax.set_title("Ewolucja kierunku wiatru w czasie")
@@ -38,7 +38,7 @@ for i in range(0, len(times), step):
 
 # punkt początkowy i końcowy
 ax.scatter(U[0], V[0], color="green", s=50, label="start (t=0)")
-ax.scatter(U[-1], V[-1], color="red", s=50, label="koniec (t=6000)")
+ax.scatter(U[-1], V[-1], color="red", s=50, label="koniec (t=3000)")
 ax.legend()
 
 # siatka i proporcje
