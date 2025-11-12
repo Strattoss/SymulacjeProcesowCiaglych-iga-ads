@@ -131,9 +131,9 @@ private:
 
         double angle = (M_PI / 2.0) * (1.0 - std::exp(-t / 1500.0));
 
-        // Compute components: west (-x) to south (+y)
+        // Compute components: west (-x) to south (-y)
         double bx = -speed * std::cos(angle);  // starts at -speed, goes to 0
-        double by = speed * std::sin(angle);  // starts at 0, goes to +speed
+        double by = -speed * std::sin(angle);  // starts at 0, goes to -speed
 
         return {bx, by};
     }
