@@ -24,6 +24,10 @@ find_package(lyra REQUIRED)
 # Problem definitions
 # --------------------------------------------------------------------
 
+add_example(oil2d GALOIS
+  SRC
+  oil2d/oil2d.cpp)
+
 add_example(wildfire GALOIS
   SRC
   wildfire/wildfire.cpp)
