@@ -1,4 +1,6 @@
 **/venv/
+*.zip
+*.pdf
 
 # Editor files
 *.sw[a-p]
