@@ -77,7 +77,7 @@ struct pumps {
         return p;
     }
 
-    double draining(double u, double x, double y) const {
+    double draining(double x, double y, double u) const {
         ads::vec2d v{x, y};
         double p = 0;
         for (const auto& pos : sinks) {
@@ -123,9 +123,12 @@ public:
     }
 
     double init_state(double x, double y) {
-        double r = 0.1;
-        double R = 0.5;
-        return 1e-3 * ads::bump(r, R, x, y);
+        // turn off init state for now for sake of readability
+        // TODO: should init_state be turned off in the final simulation?
+        // double r = 0.1;
+        // double R = 0.5;
+        // return 1e-3 * ads::bump(r, R, x, y);
+        return 0.0;
     };
 
 private:
