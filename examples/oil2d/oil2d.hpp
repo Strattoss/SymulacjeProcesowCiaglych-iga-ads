@@ -1,11 +1,14 @@
 #ifndef OIL2D_HPP
 #define OIL2D_HPP
+#define STB_IMAGE_IMPLEMENTATION
 
 #include <cmath>
 
 #include "ads/executor/galois.hpp"
 #include "ads/output_manager.hpp"
 #include "ads/simulation.hpp"
+
+#include "stb_image.h"
 
 namespace ads {
 
@@ -59,6 +62,7 @@ struct pumps {
     std::vector<ads::vec2d> sources;
     std::vector<ads::vec2d> sinks;
 
+    // parameters of pumps and drains
     static constexpr double radius = 0.15;
     static constexpr double pumping_strength = 1;
     static constexpr double draining_strength = 1e5;
@@ -96,9 +100,13 @@ private:
 
     galois_executor executor{4};
 
+    // pump locations, drain locations
     pumps process = pumps{{{0.25, 0.25}, {0.75, 0.75}}, {{0.25, 0.75}, {0.75, 0.25}}};
     lin::tensor<double, 4> kq;
     output_manager<2> output;
+    
+    unsigned char* img = nullptr;
+    int img_width = 0, img_height = 0, img_channels = 0;
 
 public:
     explicit oil2d(const config_2d& config)
@@ -106,7 +114,13 @@ public:
     , u{shape()}
     , u_prev{shape()}
     , kq{{x.basis.elements, y.basis.elements, x.basis.quad_order + 1, y.basis.quad_order + 1}}
-    , output{x.B, y.B, 100} { }
+    , output{x.B, y.B, 100} {
+        const char* map_filename = "test_permeability.bmp";
+        std::printf("Loading %s...\n", map_filename);
+        img = stbi_load(map_filename, &img_width, &img_height, &img_channels, 0);
+        if (!img) throw std::runtime_error("Cannot read the map file!");
+        std::printf("Success\n");
+    }
 
     double init_state(double x, double y) {
         double r = 0.1;
@@ -128,8 +142,36 @@ private:
     void fill_permeability_map() {
         for (auto e : elements()) {
             for (auto q : quad_points()) {
-                auto x = point(e, q);
-                kq(e[0], e[1], q[0], q[1]) = 1e2;  // permeability function
+                std::array<double, 2> point_xy = point(e, q);
+                double x = point_xy[0];
+                double y = point_xy[1];
+                // printf("x: %f, y: %f\n", x, y);
+
+                // map [0,1]x[0,1] to pixel coords
+                double px = x * img_width;
+                double py = (1.0 - y) * img_height;  // TODO: is image origin top-left??
+                // printf("px: %f, py: %f\n", px, py);
+
+                int ix = std::clamp(int(px), 0, img_width - 1); 
+                int iy = std::clamp(int(py), 0, img_height - 1);
+                // printf("ix: %d, iy: %d\n", ix, iy);
+
+                unsigned char* pixel =
+                    img + (iy * img_width + ix) * img_channels;
+
+                double intensity = pixel[0];
+                // printf("intensity: %f\n", intensity);
+
+                double norm = intensity / 255.0;
+                // printf("norm: %f\n", norm);
+
+                // choose scaling
+                double k_min = 1e-1;
+                double k_max = 1e2;
+                double k = k_min + norm * (k_max - k_min);
+                // printf("k: %f\n", k);
+
+                kq(e[0], e[1], q[0], q[1]) = k;
             }
         }
     }
