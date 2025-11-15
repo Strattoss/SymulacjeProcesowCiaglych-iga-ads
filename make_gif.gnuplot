@@ -11,7 +11,7 @@ set output 'anim.gif'
 
 unset key
 # unset colorbox
-set cbrange [200:*] # sets lower bound of colorbox to 200 while allowing for dynamical scaling of the upper bound
+set cbrange [0:0.0005] # sets lower bound of colorbox to 200 while allowing for dynamical scaling of the upper bound
 
 
 do for [i=start:end:step] {
@@ -21,6 +21,7 @@ do for [i=start:end:step] {
         continue
     }
     print sprintf("Plotting %s", filename)
+    set title sprintf("Frame %d", i)
     plot filename with image
 }
 
