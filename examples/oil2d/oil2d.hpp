@@ -63,7 +63,7 @@ struct pumps {
     std::vector<ads::vec2d> sinks;
 
     // parameters of pumps and drains
-    static constexpr double radius = 0.15;
+    static constexpr double radius = 0.1;
     static constexpr double pumping_strength = 1;
     static constexpr double draining_strength = 1e5;
 
@@ -101,7 +101,7 @@ private:
     galois_executor executor{4};
 
     // pump locations, drain locations
-    pumps process = pumps{{{0.25, 0.25}, {0.75, 0.75}}, {{0.25, 0.75}, {0.75, 0.25}}};
+    pumps process = pumps{{{0.4, 0.85}, {0.9, 0.2}}, {{0.9, 0.80}, {0.25, 0.25}}};
     lin::tensor<double, 4> kq;
     output_manager<2> output;
     
@@ -115,7 +115,7 @@ public:
     , u_prev{shape()}
     , kq{{x.basis.elements, y.basis.elements, x.basis.quad_order + 1, y.basis.quad_order + 1}}
     , output{x.B, y.B, 100} {
-        const char* map_filename = "test_permeability.bmp";
+        const char* map_filename = "permeability.bmp";
         std::printf("Loading %s...\n", map_filename);
         img = stbi_load(map_filename, &img_width, &img_height, &img_channels, 0);
         if (!img) throw std::runtime_error("Cannot read the map file!");
@@ -169,8 +169,8 @@ private:
                 // printf("norm: %f\n", norm);
 
                 // choose scaling
-                double k_min = 1e-1;
-                double k_max = 1e2;
+                double k_min = 1;
+                double k_max = 1e3;
                 double k = k_min + norm * (k_max - k_min);
                 // printf("k: %f\n", k);
 

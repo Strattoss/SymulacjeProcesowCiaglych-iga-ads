@@ -8,7 +8,7 @@ if (!exists("end"))     end = 9900
 if (!exists("step"))    step = 10
 
 unset key
-set cbrange [200:*]   # lower bound for color scale
+set cbrange [0:0.00015]
 set terminal pngcairo size 800,600
 # Generate individual PNG frames
 do for [i=start:end:step] {
